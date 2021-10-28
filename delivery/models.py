@@ -42,12 +42,11 @@ class User(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     name = models.CharField(max_length=200)
-    phone = models.CharField(max_length=9)
-    address = models.CharField(max_length=500)
     comment = models.TextField(max_length=500, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    address = models.CharField(max_length=300)
 
     def __str__(self):
         return self.name

@@ -44,7 +44,19 @@ class StatusListView(APIView):
 class OrderListView(APIView):
     @swagger_auto_schema(responses={200: OrderSerializer})
     def get(self, request):
-        orders = Order.objects.all()
+        def check_address():
+            branch_near = Branch.objects.get(address=request.data['address'])
+            orders = Order.objects.get(address=request.data['address'])
+            list_a = branch_near.split()
+            list_b = orders.split()
+
+            for a in list_a:
+                if a in list_a:
+                    return a
+
+        orders = Order.objects.filter(
+            check_address()
+        )
         serializer = OrderSerializer(many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
